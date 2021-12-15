@@ -13,11 +13,14 @@ export default function FormInput() {
   const [count, setCount] = useState(0)
   const handleAdd = (e) => {
     e.preventDefault()
-    const newJobs = jobs.concat(job)
-    setJobs(newJobs)
-    setCharacters(newJobs)
-    //localStorage.setItem()
-    console.log(newJobs)
+    setJobs((prev) => {
+      const newJobs = [...prev, job]
+
+      const jsonJobs = JSON.stringify(newJobs)
+      localStorage.setItem("jobs", jsonJobs)
+      setCharacters(newJobs)
+      return newJobs
+    });
     setJob("")
   }
     //Drop and Drag
