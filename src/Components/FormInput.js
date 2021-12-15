@@ -11,18 +11,16 @@ export default function FormInput() {
     return storageJobs ?? []
   })
   const [count, setCount] = useState(0)
-  const handleAdd = () => {
-    setJobs((prev) => {
-      const newJobs = [...prev, job]
-
-      const jsonJobs = JSON.stringify(newJobs)
-      localStorage.setItem("jobs", jsonJobs)
-
-      return newJobs
-    });
+  const handleAdd = (e) => {
+    e.preventDefault()
+    const newJobs = jobs.concat(job)
+    setJobs(newJobs)
+    setCharacters(newJobs)
+    //localStorage.setItem()
+    console.log(newJobs)
     setJob("")
   }
-  //Drop and Drag
+    //Drop and Drag
   const [characters, setCharacters] = useState(jobs)
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -62,13 +60,14 @@ export default function FormInput() {
       localStorage.setItem("jobs", jsonJobs);
       return deletedJobs
     })
-    window.location.reload();
+    setCharacters(deletedJobs)
+    //window.location.reload();
   }
   //Return
   if(onEdit) {
     return (
     <React.Fragment>
-          <form autoComplete="off">
+          <form autoComplete="off" onSubmit={handleAdd}>
               <input
               type="text"
               value={job}
@@ -91,7 +90,7 @@ export default function FormInput() {
   else {
     return (
       <React.Fragment>
-          <form autoComplete="off">
+          <form autoComplete="off" onSubmit={handleAdd}>
               <input
               type="text"
               value={job}
